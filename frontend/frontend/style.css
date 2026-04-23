@@ -1,0 +1,27 @@
+async function sendMessage() {
+    let input = document.getElementById("userInput").value;
+
+    // check empty input
+    if (input.trim() === "") {
+        alert("Please enter a question");
+        return;
+    }
+
+    try {
+        let response = await fetch("http://127.0.0.1:5000/chat", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ message: input })
+        });
+
+        let data = await response.json();
+
+        // show response
+        document.getElementById("response").innerText = data.reply;
+
+    } catch (error) {
+        document.getElementById("response").innerText = "Server error. Please try again.";
+    }
+}
